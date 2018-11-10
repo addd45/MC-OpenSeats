@@ -54,8 +54,17 @@ namespace MCSeatScheduler.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            _dbContext.ClearingOpenSeats.Add(clearingOpenSeats);            
+            //Check if this record exists already
+            //if it does, return
+            if (ClearingOpenSeatsExists(clearingOpenSeats))
+            {
+                return NoContent();
+            }
+            //if it doesnt, add it
+            else
+            {
+                _dbContext.ClearingOpenSeats.Add(clearingOpenSeats);
+            }
 
             try
             {
@@ -66,6 +75,7 @@ namespace MCSeatScheduler.Controllers
             return NoContent();
         }
 
+        //Dont use this one...
         // POST: api/ClearingOpenSeats
         [HttpPost]
         public async Task<IActionResult> PostClearingOpenSeats([FromBody] ClearingOpenSeats clearingOpenSeats)
@@ -82,7 +92,7 @@ namespace MCSeatScheduler.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ClearingOpenSeatsExists(clearingOpenSeats.Date))
+                if (ClearingOpenSeatsExists(clearingOpenSeats))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -96,15 +106,15 @@ namespace MCSeatScheduler.Controllers
         }
 
         // DELETE: api/ClearingOpenSeats/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClearingOpenSeats([FromRoute] DateTime id)
+        [HttpDelete("{date}/{eid}")]
+        public async Task<IActionResult> DeleteClearingOpenSeats([FromRoute] DateTime date, [FromRoute] string eid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var clearingOpenSeats = await _dbContext.ClearingOpenSeats.FindAsync(id);
+            var clearingOpenSeats = await _dbContext.ClearingOpenSeats.FindAsync(date, eid);
             if (clearingOpenSeats == null)
             {
                 return NotFound();
@@ -116,9 +126,9 @@ namespace MCSeatScheduler.Controllers
             return Ok(clearingOpenSeats);
         }
 
-        private bool ClearingOpenSeatsExists(DateTime id)
+        private bool ClearingOpenSeatsExists(ClearingOpenSeats seats)
         {
-            return _dbContext.ClearingOpenSeats.Any(e => e.Date == id);
+            return _dbContext.ClearingOpenSeats.Any(c => (c.Date.Date == seats.Date.Date && c.EmployeeId.ToUpper() == seats.EmployeeId.ToUpper()));
         }
     }
 }
