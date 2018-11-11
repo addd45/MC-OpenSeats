@@ -1,4 +1,5 @@
 ﻿using System;
+using MCSeatScheduler.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
