@@ -25,7 +25,10 @@
 					<div class="card-body">
 						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
 						<br />
-						<form class="form-schedule">
+						<!-- Pass in parameters to BeginForm for mapper, controller, method-->
+
+						@using (Html.BeginForm("ClearingOpenSeats", "Values", FormMethod.Post))
+						{
 							<div class="form-label-group">
 								<label>
 									@Html.DisplayNameFor(model => model.EmployeeId)
@@ -50,9 +53,10 @@
 									<p>&copy; 2018 - Mastercard Seat Scheduler</p>
 								</footer>
 							</div>
+						}
 
 
-						</form>
+
 					</div>
 				</div>
 			</div>
