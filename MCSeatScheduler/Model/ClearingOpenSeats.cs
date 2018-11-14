@@ -10,7 +10,7 @@ namespace MCSeatScheduler.Model
 		[Required]
 		[DisplayName("Date")]
 		public DateTime Date { get; set; }
-		[Required]
+		
 		[DisplayName("Employee ID")]
 		public string EmployeeId { get; set; }
     }

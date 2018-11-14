@@ -1,4 +1,4 @@
-﻿@model MCSeatScheduler.Model.ClearingOpenSeats
+﻿@model List<ClearingOpenSeats>
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -25,21 +25,29 @@
 					<div class="card-body">
 						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
 						<br />
-						
-							@using (Html.BeginForm("GetClearingOpenSeats", "ClearingOpenSeats", FormMethod.Post))
+						<table class="table">
+							<caption>List of users</caption>
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">First</th>
+									<th scope="col">Last</th>
+									<th scope="col">Handle</th>
+								</tr>
+							</thead>
+
+							@*Iterate through whatever the GetClearingOpenSeats returns and display them.*@ 
+							@foreach(ClearingOpenSeats objUser in )
 							{
-								<div class="form-label-group">
-									<label>
-										@Html.DisplayNameFor(model => model.Date)
-									</label>
-									<input type="Date" id="Date" class="form-control" placeholder="Date" required>
-									<br />
-								</div>
-
-								<br />
-								<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Reserve</button>
-
+							<tr>
+								<td>@objUser.Date</td>
+								<td>@objUser.EmployeeID</td>
+								<td>status</td>
+							</tr>
 							}
+						</table>
+
+
 					</div>
 				</div>
 			</div>
