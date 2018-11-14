@@ -1,9 +1,7 @@
-﻿@model List<ClearingOpenSeats>
+﻿@model IEnumerable<ClearingOpenSeats>
 @{
-	ViewData["Title"] = "Home Page";
+	ViewData["Title"] = $"Clearing Open Seats for {DateTime.Now.ToShortDateString()}";
 }
-
-
 
 <!doctype html>
 <html lang="en">
@@ -37,11 +35,11 @@
 							</thead>
 
 							@*Iterate through whatever the GetClearingOpenSeats returns and display them.*@ 
-							@foreach(ClearingOpenSeats objUser in )
+							@foreach(ClearingOpenSeats objUser in Model)
 							{
 							<tr>
 								<td>@objUser.Date</td>
-								<td>@objUser.EmployeeID</td>
+								<td>@objUser.EmployeeId</td>
 								<td>status</td>
 							</tr>
 							}

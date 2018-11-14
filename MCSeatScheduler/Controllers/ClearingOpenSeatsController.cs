@@ -12,13 +12,20 @@ namespace MCSeatScheduler.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClearingOpenSeatsController : ControllerBase
+    public class ClearingOpenSeatsController : Controller
     {
         private readonly MCDBContext _dbContext;
 
         public ClearingOpenSeatsController(MCDBContext context)
         {
             _dbContext = context;
+        }
+
+        [HttpGet("OpenSeats")]
+        public IActionResult Index()
+        {
+            var data = GetClearingOpenSeats();
+            return View(data);
         }
 
         // GET: return everything in DB (use for debugging only)

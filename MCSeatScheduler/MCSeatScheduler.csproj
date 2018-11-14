@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\ClearingOpenSeats\ClearingOpenSeats.cshtml">
+    <Content Update="Views\ClearingOpenSeats\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
