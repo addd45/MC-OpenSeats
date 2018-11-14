@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MCSeatScheduler.Model
 {
-    public partial class ClearingOpenSeats
+    public partial class OpenSeats
     {
 		[Required]
 		[DisplayName("Date")]

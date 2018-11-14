@@ -16,7 +16,7 @@ namespace MCSeatScheduler
         {
         }
 
-        public virtual DbSet<ClearingOpenSeats> ClearingOpenSeats { get; set; }
+        public virtual DbSet<OpenSeats> OpenSeats { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,7 +28,7 @@ namespace MCSeatScheduler
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ClearingOpenSeats>(entity =>
+            modelBuilder.Entity<OpenSeats>(entity =>
             {
                 entity.HasKey(e => new { e.Date, e.EmployeeId });
 

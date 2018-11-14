@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClearingOpenSeats>
+﻿@model IEnumerable<OpenSeats>
 @{
 	ViewData["Title"] = $"Clearing Open Seats for {DateTime.Now.ToShortDateString()}";
 }
@@ -13,7 +13,7 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<title>Mastercard Seat Scheduler</title>
+	<title>@ViewBag.Title</title>
 </head>
 <body>
 	<div class="container">
@@ -34,8 +34,8 @@
 								</tr>
 							</thead>
 
-							@*Iterate through whatever the GetClearingOpenSeats returns and display them.*@ 
-							@foreach(ClearingOpenSeats objUser in Model)
+							@*Iterate through whatever the GetOpenSeats returns and display them.*@ 
+							@foreach(OpenSeats objUser in Model)
 							{
 							<tr>
 								<td>@objUser.Date</td>

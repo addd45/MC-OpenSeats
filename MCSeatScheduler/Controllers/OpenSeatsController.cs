@@ -10,53 +10,53 @@ using MCSeatScheduler.Model;
 
 namespace MCSeatScheduler.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ClearingOpenSeatsController : Controller
+    public class OpenSeats : Controller
     {
         private readonly MCDBContext _dbContext;
 
-        public ClearingOpenSeatsController(MCDBContext context)
+        public OpenSeats(MCDBContext context)
         {
             _dbContext = context;
         }
 
-        [HttpGet("OpenSeats")]
+        [HttpGet]
         public IActionResult Index()
         {
-            var data = GetClearingOpenSeats();
-            return View(data);
+            //TODO: Were not ever gonna want this because not ever gonna return all records in the DB...
+            return View(GetOpenSeats());
         }
 
         // GET: return everything in DB (use for debugging only)
-        [HttpGet]
-        public IEnumerable<ClearingOpenSeats> GetClearingOpenSeats()
+        [HttpGet("api")]
+        public IEnumerable<Model.OpenSeats> GetOpenSeats()
         {
-            return _dbContext.ClearingOpenSeats;
+            return _dbContext.OpenSeats;
         }
 
-        // GET: api/ClearingOpenSeats/5
-        [HttpGet("{id}")]
-        public IActionResult GetClearingOpenSeats([FromRoute] DateTime id)
+        // GET: api/OpenSeats/5
+        [HttpGet("api/{id}")]
+        public IActionResult GetOpenSeats([FromRoute] DateTime id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var clearingOpenSeats = _dbContext.ClearingOpenSeats.Where(c => c.Date.Date == id.Date);
+            var OpenSeats = _dbContext.OpenSeats.Where(c => c.Date.Date == id.Date);
 
-            if (clearingOpenSeats == null)
+            if (OpenSeats == null)
             {
                 return NotFound();
             }
 
-            return Ok(clearingOpenSeats);
+            return Ok(OpenSeats);
         }
 
-        // PUT: api/ClearingOpenSeats/5
-        [HttpPut]
-        public async Task<IActionResult> PutClearingOpenSeats([FromBody] ClearingOpenSeats clearingOpenSeats)
+        // PUT: api/OpenSeats/5
+        [HttpPut("api")]
+        public async Task<IActionResult> PutOpenSeats([FromBody] Model.OpenSeats OpenSeats)
         {
             if (!ModelState.IsValid)
             {
@@ -64,14 +64,14 @@ namespace MCSeatScheduler.Controllers
             }
             //Check if this record exists already
             //if it does, return
-            if (ClearingOpenSeatsExists(clearingOpenSeats))
+            if (OpenSeatsExists(OpenSeats))
             {
                 return NoContent();
             }
             //if it doesnt, add it
             else
             {
-                _dbContext.ClearingOpenSeats.Add(clearingOpenSeats);
+                _dbContext.OpenSeats.Add(OpenSeats);
             }
 
             try
@@ -84,23 +84,23 @@ namespace MCSeatScheduler.Controllers
         }
 
         //Dont use this one...
-        // POST: api/ClearingOpenSeats
-        [HttpPost]
-        public async Task<IActionResult> PostClearingOpenSeats([FromBody] ClearingOpenSeats clearingOpenSeats)
+        // POST: api/OpenSeats
+        [HttpPost("api")]
+        public async Task<IActionResult> PostOpenSeats([FromBody] Model.OpenSeats OpenSeats)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _dbContext.ClearingOpenSeats.Add(clearingOpenSeats);
+            _dbContext.OpenSeats.Add(OpenSeats);
             try
             {
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ClearingOpenSeatsExists(clearingOpenSeats))
+                if (OpenSeatsExists(OpenSeats))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -110,33 +110,33 @@ namespace MCSeatScheduler.Controllers
                 }
             }
 
-            return CreatedAtAction("GetClearingOpenSeats", new { id = clearingOpenSeats.Date }, clearingOpenSeats);
+            return CreatedAtAction("GetOpenSeats", new { id = OpenSeats.Date }, OpenSeats);
         }
 
-        // DELETE: api/ClearingOpenSeats/5
-        [HttpDelete("{date}/{eid}")]
-        public async Task<IActionResult> DeleteClearingOpenSeats([FromRoute] DateTime date, [FromRoute] string eid)
+        // DELETE: api/OpenSeats/5
+        [HttpDelete("api/{date}/{eid}")]
+        public async Task<IActionResult> DeleteOpenSeats([FromRoute] DateTime date, [FromRoute] string eid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var clearingOpenSeats = await _dbContext.ClearingOpenSeats.FindAsync(date, eid);
-            if (clearingOpenSeats == null)
+            var OpenSeats = await _dbContext.OpenSeats.FindAsync(date, eid);
+            if (OpenSeats == null)
             {
                 return NotFound();
             }
 
-            _dbContext.ClearingOpenSeats.Remove(clearingOpenSeats);
+            _dbContext.OpenSeats.Remove(OpenSeats);
             await _dbContext.SaveChangesAsync();
 
-            return Ok(clearingOpenSeats);
+            return Ok(OpenSeats);
         }
 
-        private bool ClearingOpenSeatsExists(ClearingOpenSeats seats)
+        private bool OpenSeatsExists(Model.OpenSeats seats)
         {
-            return _dbContext.ClearingOpenSeats.Any(c => (c.Date.Date == seats.Date.Date && c.EmployeeId.ToUpper() == seats.EmployeeId.ToUpper()));
+            return _dbContext.OpenSeats.Any(c => (c.Date.Date == seats.Date.Date && c.EmployeeId.ToUpper() == seats.EmployeeId.ToUpper()));
         }
     }
 }

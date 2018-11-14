@@ -1,4 +1,4 @@
-﻿@model MCSeatScheduler.Model.ClearingOpenSeats
+﻿@model MCSeatScheduler.Model.OpenSeats
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -26,7 +26,7 @@
 						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
 						<br />
 						
-							@using (Html.BeginForm("GetClearingOpenSeats", "ClearingOpenSeats", FormMethod.Post))
+							@using (Html.BeginForm("GetOpenSeats", "OpenSeats", FormMethod.Post))
 							{
 								<div class="form-label-group">
 									<label>
