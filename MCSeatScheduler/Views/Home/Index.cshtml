@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>View</title>
+</head>
+<body>
+
+
+    <p>
+
+    </p>
+    <div id="openSeats">
+        @Html.BeginForm("OpenSeats", "Home"){
+            @Html.TextBox("txtDate", null, new { @type = "date", @class = "form-control datepicker", @Value = "" });
+            <button type="submit">View Open Seats</button>
+            @*<input type="button" value="View Available Seats" onclick="location.href='@{ Url.Action("OpenSeats", "Home", ) }" />*@   
+        }
+    </div>
+</body>
+</html>
