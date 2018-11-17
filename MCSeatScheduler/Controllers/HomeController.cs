@@ -32,11 +32,19 @@ namespace MCSeatScheduler.Controllers
             //var dt = DateTime.Parse(date);
             var ret = api.GetOpenSeats(date.Date) as OkObjectResult;
             
+            
             if (ret == null)
             {
                 return View();
             }
             return View(ret.Value);
+        }
+
+        [ActionName("Delete")]
+        [HttpDelete("{user}")]
+        public ActionResult Delete(string user)
+        {
+            return NoContent(); 
         }
 
         // POST: Home

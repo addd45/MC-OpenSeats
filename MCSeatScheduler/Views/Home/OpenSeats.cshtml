@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<MCSeatScheduler.Model.OpenSeats>
+@{const int MAX_SEATS = 10;}
 
 <!doctype html>
 <html lang="en">
@@ -28,19 +29,25 @@
 							</thead>
 
 							<tbody>
-								@foreach (var item in Model)
-								{
+                                @{int openSeats = MAX_SEATS - Model.Count();
+								  foreach (var item in Model)
+                                    {
 									<tr>
 										<td>
 											<span>@item.EmployeeId</span>
 										</td>
 										<td>
-											@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-											@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-											@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+											@Html.ActionLink("Delete", "Delete", new { user = item.EmployeeId })
 										</td>
 									</tr>
-								}
+                                }
+                                for (int i = 0; i < openSeats; i++) {
+                                        <tr>
+                                            <td>Available</td>
+                                            <td>@Html.ActionLink("Reserve", "Edit", new { /* id=item.PrimaryKey */ })</td>
+                                        </tr>
+                                    }
+                                 }
 							</tbody>
 						</table>
 
