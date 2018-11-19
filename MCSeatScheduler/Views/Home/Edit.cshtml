@@ -2,6 +2,8 @@
 @{
 	ViewData["Title"] = "Edit";
 }
+@*use the selected date for an add*@
+@(ViewBag.SelectedDate)
 
 
 
@@ -25,21 +27,23 @@
 					<div class="card-body">
 						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
 						<br />
-						@using (Html.BeginForm("EnterNewRow", "Home"))
+						@using (Html.BeginForm("ReserveNew", "Home"))
 						{
+							@(ViewBag.SelectedDate)
 
-						<div class="form-label-group">
-							<label>
-								@ViewBag.Message
-							</label>
-							<label>
-								@Html.DisplayNameFor(model => model.EmployeeId)
-							</label>
-							<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
+							<div class="form-label-group">
+								<label>
+									@Html.DisplayNameFor(model => model.Date)
+								</label>
+								<input type="text" id="Date" name="Date" value=@(ViewBag.SelectedDate) class="form-control" required>
+								<label>
+									@Html.DisplayNameFor(model => model.EmployeeId)
+								</label>
+								<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
 
-							<br />
-						</div>
-								<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Reserve</button>
+								<br />
+							</div>
+							<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Reserve</button>
 						}
 					</div>
 				</div>

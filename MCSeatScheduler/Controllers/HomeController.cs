@@ -14,6 +14,7 @@ namespace MCSeatScheduler.Controllers
 		public HomeController(MCDBContext context)
 		{
 			_dbContext = context;
+
 		}
 
 		// GET: Home
@@ -28,9 +29,10 @@ namespace MCSeatScheduler.Controllers
 
 		}
 
-		public void EnterNewRow(string eid)
+		public void ReserveNew(DateTime date, string eid)
 		{
 			var api = new OpenSeatsController(_dbContext);
+			 
 			//var ret = api.PutOpenSeats();
 
 		}
@@ -51,6 +53,9 @@ namespace MCSeatScheduler.Controllers
 
 		public ActionResult OpenSeats(DateTime date)
 		{
+			//Set the date here for the other views
+			ViewBag.SelectedDate = date;
+
 			var api = new OpenSeatsController(_dbContext);
 			//var dt = DateTime.Parse(date);
 			var ret = api.GetOpenSeats(date.Date) as OkObjectResult;
@@ -61,8 +66,6 @@ namespace MCSeatScheduler.Controllers
 			}
 			return View(ret.Value);
 		}
-
-
 
 		// POST: Home
 		[HttpPost]
