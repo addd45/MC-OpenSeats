@@ -30,10 +30,25 @@ namespace MCSeatScheduler.Controllers
 
 		}
 
-		public void ReserveNew(DateTime date, string eid)
+		public async Task<IActionResult> ReserveNew(DateTime date, string eid)
 		{
 			var api = new OpenSeatsController(_dbContext);
 			 
+			//make sure seats still available
+			var open = api.GetOpenSeats(date.Date) as OkObjectResult;
+
+			if (open != null){
+				var openSeats = open.Value as IEnumerable<Model.OpenSeats>;
+				if (openSeats.Count() > 9){
+					return BadRequest("All seats reserved");
+				}
+				else{
+					return await api.ReserveSeat(date, eid);
+				}
+			}
+			else{
+				throw new Exception("Error getting available seats");
+			}
 			//var ret = api.PutOpenSeats();
 
 		}
