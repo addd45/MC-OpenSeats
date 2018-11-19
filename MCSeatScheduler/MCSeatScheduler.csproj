@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Home\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\OpenSeats\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

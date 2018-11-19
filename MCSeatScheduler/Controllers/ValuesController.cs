@@ -13,17 +13,10 @@ namespace MCSeatScheduler.Controllers
 
 		// GET api/values
 		[HttpGet]
-		public IActionResult Index()
+		public ActionResult<IEnumerable<string>> Get()
 		{
-			return View();
+			return new string[] { "value1", "value2" };
 		}
-
-		//// GET api/values
-		//[HttpGet]
-		//      public ActionResult<IEnumerable<string>> Get()
-		//      {
-		//          return new string[] { "value1", "value2" };
-		//      }
 
 		// GET api/values/5
 		[HttpGet("{id}")]

@@ -1,6 +1,6 @@
 ﻿@model MCSeatScheduler.Model.OpenSeats
 @{
-	ViewData["Title"] = "Choose date";
+	ViewData["Title"] = "Edit";
 }
 
 
@@ -25,18 +25,21 @@
 					<div class="card-body">
 						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
 						<br />
-						@using (Html.BeginForm("OpenSeats", "Home"))
+						@using (Html.BeginForm("EnterNewRow", "Home"))
 						{
 
-							<div class="form-label-group">
-								<label>
-									@Html.DisplayNameFor(model => model.Date)
-								</label>
-								<input type="date" id="Date" name="Date" class="form-control" placeholder="Date" required>
+						<div class="form-label-group">
+							<label>
+								@ViewBag.Message
+							</label>
+							<label>
+								@Html.DisplayNameFor(model => model.EmployeeId)
+							</label>
+							<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
 
-									<br />
-								</div>
-								<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">View Open Seats</button>
+							<br />
+						</div>
+								<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Reserve</button>
 						}
 					</div>
 				</div>
