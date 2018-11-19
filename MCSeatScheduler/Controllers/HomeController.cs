@@ -23,9 +23,10 @@ namespace MCSeatScheduler.Controllers
 			//Page where they pick a date n stuff
 			return View();
 		}
-		public ActionResult Edit(DateTime date)
+		
+		public ActionResult Reserve(DateTime date)
 		{
-			return View("Edit");
+			return View("Reserve");
 
 		}
 
