@@ -43,7 +43,7 @@ namespace MCSeatScheduler.Controllers
 					return BadRequest("All seats reserved");
 				}
 				else{
-					return await api.ReserveSeat(date, eid);
+					return api.ReserveSeat(date, eid);
 				}
 			}
 			else{
@@ -70,7 +70,7 @@ namespace MCSeatScheduler.Controllers
 		public ActionResult OpenSeats(DateTime date)
 		{
 			//Set the date here for the other views
-			ViewBag.SelectedDate = date;
+			TempData["SelectedDate"] = date;
 
 			var api = new OpenSeatsController(_dbContext);
 			//var dt = DateTime.Parse(date);
