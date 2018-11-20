@@ -39,8 +39,14 @@ namespace MCSeatScheduler.Controllers
 
 			if (open != null){
 				var openSeats = open.Value as IEnumerable<Model.OpenSeats>;
+
+				//Make sure theres still spots available
 				if (openSeats.Count() > 9){
 					return BadRequest("All seats reserved");
+				}
+				//cant reserve twice
+				else if (openSeats.Any(s=> s.EmployeeId == eid)){
+					return BadRequest("cant reserve yourself twice");
 				}
 				else{
 					return await api.ReserveSeat(date, eid);
