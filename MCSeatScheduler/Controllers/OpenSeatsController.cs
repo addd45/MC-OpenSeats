@@ -76,6 +76,14 @@ namespace MCSeatScheduler.Controllers
             return NoContent();
         }
 
+        public async Task<IActionResult> ReserveSeat(DateTime dateTime, string eid){
+            var model = new OpenSeats{
+                Date = dateTime,
+                EmployeeId = eid
+            };
+            return await PutOpenSeats(model);
+        }
+
         //Dont use this one...
         // POST: api/OpenSeats
         [HttpPost("api")]
@@ -115,16 +123,20 @@ namespace MCSeatScheduler.Controllers
                 return BadRequest(ModelState);
             }
 
-            var OpenSeats = await _dbContext.OpenSeats.FindAsync(date, eid);
-            if (OpenSeats == null)
+            var openSeats = await _dbContext.OpenSeats.FindAsync(date, eid);
+            if (openSeats == null)
             {
                 return NotFound();
             }
-
-            _dbContext.OpenSeats.Remove(OpenSeats);
+            try{
+            _dbContext.OpenSeats.Remove(openSeats);
             await _dbContext.SaveChangesAsync();
+            }
 
-            return Ok(OpenSeats);
+            catch(Exception e){
+                return StatusCode(500);
+            }
+            return Ok(openSeats);
         }
 
         private bool OpenSeatsExists(Model.OpenSeats seats)
