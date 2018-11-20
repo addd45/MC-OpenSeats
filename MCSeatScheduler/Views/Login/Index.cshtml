@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login with Employee ID</h2>
+<title>@ViewData["Title"]</title>
+
+<p>Enter your employee ID</p>
+
+<div id="openSeats">
+    @Html.BeginForm("Login", "Home"){
+    @Html.TextBox("txtEmpID", null, new { @class = "form-control employeeID", @Value = "Employee ID" });
+    <button type="submit" asp-action="LoginEID" asp-controller="Login">Submit</button>
+    @*<input type="button" value="View Available Seats" onclick="location.href='@{ Url.Action("OpenSeats", "Home", ) }" />*@
+    }
+</div>
+

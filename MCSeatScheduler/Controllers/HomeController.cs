@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCSeatScheduler.Controllers
 {
+    [Authorize]
 	public class HomeController : Controller
 	{
 		private readonly OpenSeatsController _apiController;
@@ -16,13 +18,14 @@ namespace MCSeatScheduler.Controllers
             _apiController = openSeatsController;
 		}
 
-		// GET: Home
-		public ActionResult Index()
+        // GET: Home
+        
+        public IActionResult Index()
 		{
 			//Page where they pick a date n stuff
 			return View();
 		}
-		
+
 		public ActionResult Reserve(DateTime date)
 		{
 			return View("Reserve");
@@ -55,16 +58,10 @@ namespace MCSeatScheduler.Controllers
 
 		}
 
-		public async Task Delete(DateTime date, string eid)
+		public async Task<IActionResult> Delete(DateTime date, string eid)
 		{
 			//var dt = DateTime.Parse(date);
-			var ret = await _apiController.DeleteOpenSeats(date.Date, eid);
-
-			//if (ret == null)
-			//{
-			//	return View();
-			//}
-			//return View(ret.Value);
+			return await _apiController.DeleteOpenSeats(date.Date, eid);
 		}
 	
 
