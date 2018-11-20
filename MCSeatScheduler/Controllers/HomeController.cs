@@ -49,7 +49,11 @@ namespace MCSeatScheduler.Controllers
 					return BadRequest("cant reserve yourself twice");
 				}
 				else{
-					return await _apiController.ReserveSeat(date, eid);
+					 await _apiController.ReserveSeat(date, eid);
+					 return RedirectToAction("OpenSeats", "Home", new
+					 {
+						 date = date.ToString()
+					 });
 				}
 			}
 			else{
@@ -61,7 +65,17 @@ namespace MCSeatScheduler.Controllers
 		public async Task<IActionResult> Delete(DateTime date, string eid)
 		{
 			//var dt = DateTime.Parse(date);
-			return await _apiController.DeleteOpenSeats(date.Date, eid);
+			var ret = await _apiController.DeleteOpenSeats(date.Date, eid);
+			return RedirectToAction("OpenSeats", "Home", new
+			{
+				date = date.ToString()
+			});
+
+			//if (ret == null)
+			//{
+			//	return View();
+			//}
+			//return View(ret.Value);
 		}
 	
 
