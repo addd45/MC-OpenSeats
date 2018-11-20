@@ -52,7 +52,6 @@ namespace MCSeatScheduler.Controllers
 			else{
 				throw new Exception("Error getting available seats");
 			}
-			//var ret = api.PutOpenSeats();
 
 		}
 

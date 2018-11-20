@@ -24,7 +24,6 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">#</th>
 									<th scope="col">Seat Number</th>
 									<th scope="col">Employee ID</th>
 									<th scope="col">Action</th>
@@ -32,25 +31,30 @@
 							</thead>
 
 							<tbody>
-                                @{int openSeats = MAX_SEATS - Model.Count();
-								  foreach (var item in Model)
-                                    {
-									<tr>
-										<td>
-											<span>@item.EmployeeId</span>
-										</td>
-										<td>
-											@Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId })
-										</td>
-									</tr>
-                                }
-                                for (int i = 0; i < openSeats; i++) {
-                                        <tr>
-                                            <td>Available</td>
-                                            <td>@Html.ActionLink("Reserve", "Reserve", "Home" ) </td>
-                                        </tr>
-                                    }
-                                 }
+								@{int openSeats = MAX_SEATS - Model.Count();
+									int seatNumber = 1;
+									foreach (var item in Model)
+									{
+										<tr>
+											<td>@seatNumber</td>
+											<td><span>@item.EmployeeId</span></td>
+											<td>
+												@Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId })
+											</td>
+										</tr>
+										seatNumber++;
+									}
+									for (int i = 0; i < openSeats; i++)
+									{
+										<tr>
+											<td>@seatNumber</td>
+											<td>Available</td>
+											<td>@Html.ActionLink("Reserve", "Reserve", "Home") </td>
+										</tr>
+										seatNumber++;
+
+									}
+								}
 							</tbody>
 						</table>
 
