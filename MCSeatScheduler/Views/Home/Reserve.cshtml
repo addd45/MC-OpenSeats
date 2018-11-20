@@ -2,8 +2,7 @@
 @{
 	ViewData["Title"] = "Reserve";
 }
-@*use the selected date for an add*@
-@(ViewBag.SelectedDate)
+
 
 
 
@@ -29,20 +28,24 @@
 						<br />
 						@using (Html.BeginForm("ReserveNew", "Home"))
 						{
-							@(ViewBag.SelectedDate)
+						
+							
 
-							<div class="form-label-group">
-								<label>
-									@Html.DisplayNameFor(model => model.Date)
-								</label>
-								<input type="text" id="Date" name="Date" value=@(ViewBag.SelectedDate) class="form-control" required>
-								<label>
-									@Html.DisplayNameFor(model => model.EmployeeId)
-								</label>
-								<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
+						<div class="form-label-group">
 
-								<br />
-							</div>
+							<label>
+								@Html.DisplayNameFor(model => model.Date)
+							</label>
+
+							<input type="Date" id="date" name="date" value="@TempData["SelectedDate"]" class="form-control" placeholder="Employee ID Number" required>
+
+							<label>
+								@Html.DisplayNameFor(model => model.EmployeeId)
+							</label>
+							<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
+
+							<br />
+						</div>
 							<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Reserve</button>
 						}
 					</div>

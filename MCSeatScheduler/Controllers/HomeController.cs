@@ -72,7 +72,7 @@ namespace MCSeatScheduler.Controllers
 		public IActionResult OpenSeats(DateTime date)
 		{
 			//Set the date here for the other views
-			ViewBag.SelectedDate = date;
+			TempData["SelectedDate"] = date;
 
 			//var dt = DateTime.Parse(date);
 			var ret = _apiController.GetOpenSeats(date.Date) as OkObjectResult;
