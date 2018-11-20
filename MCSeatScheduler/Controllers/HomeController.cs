@@ -9,12 +9,11 @@ namespace MCSeatScheduler.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly MCDBContext _dbContext;
+		private readonly OpenSeatsController _apiController;
 
-		public HomeController(MCDBContext context)
+		public HomeController(OpenSeatsController openSeatsController)
 		{
-			_dbContext = context;
-
+            _apiController = openSeatsController;
 		}
 
 		// GET: Home
@@ -31,11 +30,9 @@ namespace MCSeatScheduler.Controllers
 		}
 
 		public async Task<IActionResult> ReserveNew(DateTime date, string eid)
-		{
-			var api = new OpenSeatsController(_dbContext);
-			 
+		{			 
 			//make sure seats still available
-			var open = api.GetOpenSeats(date.Date) as OkObjectResult;
+			var open = _apiController.GetOpenSeats(date.Date) as OkObjectResult;
 
 			if (open != null){
 				var openSeats = open.Value as IEnumerable<Model.OpenSeats>;
@@ -49,7 +46,7 @@ namespace MCSeatScheduler.Controllers
 					return BadRequest("cant reserve yourself twice");
 				}
 				else{
-					return await api.ReserveSeat(date, eid);
+					return await _apiController.ReserveSeat(date, eid);
 				}
 			}
 			else{
@@ -59,11 +56,10 @@ namespace MCSeatScheduler.Controllers
 
 		}
 
-		public void Delete(DateTime date, string eid)
+		public async Task Delete(DateTime date, string eid)
 		{
-			var api = new OpenSeatsController(_dbContext);
 			//var dt = DateTime.Parse(date);
-			var ret = api.DeleteOpenSeats(date.Date, eid);
+			var ret = await _apiController.DeleteOpenSeats(date.Date, eid);
 
 			//if (ret == null)
 			//{
@@ -73,14 +69,13 @@ namespace MCSeatScheduler.Controllers
 		}
 	
 
-		public ActionResult OpenSeats(DateTime date)
+		public IActionResult OpenSeats(DateTime date)
 		{
 			//Set the date here for the other views
 			ViewBag.SelectedDate = date;
 
-			var api = new OpenSeatsController(_dbContext);
 			//var dt = DateTime.Parse(date);
-			var ret = api.GetOpenSeats(date.Date) as OkObjectResult;
+			var ret = _apiController.GetOpenSeats(date.Date) as OkObjectResult;
 
 			if (ret == null)
 		    {
@@ -91,7 +86,7 @@ namespace MCSeatScheduler.Controllers
 
 		// POST: Home
 		[HttpPost]
-		public ActionResult Create(IFormCollection collection)
+		public IActionResult Create(IFormCollection collection)
 		{
 			try
 			{

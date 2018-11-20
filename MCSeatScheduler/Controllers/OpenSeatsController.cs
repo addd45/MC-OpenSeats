@@ -84,36 +84,6 @@ namespace MCSeatScheduler.Controllers
             return await PutOpenSeats(model);
         }
 
-        //Dont use this one...
-        // POST: api/OpenSeats
-        [HttpPost("api")]
-        public async Task<IActionResult> PostOpenSeats([FromBody] Model.OpenSeats OpenSeats)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _dbContext.OpenSeats.Add(OpenSeats);
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (OpenSeatsExists(OpenSeats))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetOpenSeats", new { id = OpenSeats.Date }, OpenSeats);
-        }
-
         // DELETE: api/OpenSeats/5
         [HttpDelete("api/{date}/{eid}")]
         public async Task<IActionResult> DeleteOpenSeats([FromRoute] DateTime date, [FromRoute] string eid)
