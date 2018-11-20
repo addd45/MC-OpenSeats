@@ -49,13 +49,12 @@ namespace MCSeatScheduler.Controllers
 					return BadRequest("cant reserve yourself twice");
 				}
 				else{
-					return api.ReserveSeat(date, eid);
+					return await api.ReserveSeat(date, eid);
 				}
 			}
 			else{
 				throw new Exception("Error getting available seats");
 			}
-			//var ret = api.PutOpenSeats();
 
 		}
 
