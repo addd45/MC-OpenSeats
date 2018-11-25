@@ -31,12 +31,23 @@ namespace MCSeatScheduler
                 options.UseNpgsql(connStr)
             );
 
-            services
-                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-                {
-                    options.LoginPath = "/Login";
-                    options.Cookie.Name = "EmployeeID";
-                });
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			})
+			 .AddCookie(options =>
+			 {
+				 options.LoginPath = "/login";
+			 });
+
+			//services
+   //             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+   //             {
+   //                 options.LoginPath = "/Login";
+   //                 options.Cookie.Name = "EmployeeID";
+   //             });
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -54,13 +65,17 @@ namespace MCSeatScheduler
             {
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            
-            app.Use((context, next) =>
-            {
-                context.Request.Scheme = "https";
-                return next();
-            });
+			app.UseStaticFiles();
+
+			app.UseAuthentication();
+
+			//app.UseHttpsRedirection();
+
+			//app.Use((context, next) =>
+			//{
+			//	context.Request.Scheme = "https";
+			//	return next();
+			//});
 
 			app.UseMvc(routes =>
 			{

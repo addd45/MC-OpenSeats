@@ -1,19 +1,53 @@
 ﻿
+@model MCSeatScheduler.Model.OpenSeats
 @{
-    ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Reserve";
 }
 
-<h2>Login with Employee ID</h2>
-<title>@ViewData["Title"]</title>
 
-<p>Enter your employee ID</p>
+<!doctype html>
+<html lang="en">
+<head>
 
-<div id="openSeats">
-    @Html.BeginForm("Login", "Home"){
-    @Html.TextBox("txtEmpID", null, new { @class = "form-control employeeID", @Value = "Employee ID" });
-    <button type="submit" asp-action="LoginEID" asp-controller="Login">Submit</button>
-    @*<input type="button" value="View Available Seats" onclick="location.href='@{ Url.Action("OpenSeats", "Home", ) }" />*@
-    }
-</div>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<title>Mastercard Seat Scheduler</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+				<div class="card card-signin my-5">
+					<div class="card-body">
+						<h3 class="card-title text-center">Mastercard Seat Scheduler</h3>
+						<br />
+						@using (Html.BeginForm("LoginEID", "Login"))
+						{
+							<div class="form-label-group">
+
+								<label>
+									@Html.DisplayNameFor(model => model.EmployeeId)
+								</label>
+								<input type="text" id="Eid" name="Eid" class="form-control" placeholder="Employee ID Number" required>
+
+								<br />
+							</div>
+							<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Log In</button>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+
+
+</html>
+
 

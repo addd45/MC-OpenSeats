@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,10 @@ namespace MCSeatScheduler.Controllers
         
         public IActionResult Index()
 		{
+			//if (User.Identity.IsAuthenticated)
+			//{
+			//	await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			//}
 			//Page where they pick a date n stuff
 			return View();
 		}
@@ -64,6 +70,7 @@ namespace MCSeatScheduler.Controllers
 
 		public async Task<IActionResult> Delete(DateTime date, string eid)
 		{
+			
 			//var dt = DateTime.Parse(date);
 			var ret = await _apiController.DeleteOpenSeats(date.Date, eid);
 			return RedirectToAction("OpenSeats", "Home", new
