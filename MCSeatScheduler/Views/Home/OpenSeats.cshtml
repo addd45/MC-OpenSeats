@@ -33,13 +33,20 @@
 							<tbody>
 								@{int openSeats = MAX_SEATS - Model.Count();
 									int seatNumber = 1;
+									DateTime reserveDate = Model.FirstOrDefault().Date;
 									foreach (var item in Model)
 									{
 										<tr>
 											<td>@seatNumber</td>
 											<td><span>@item.EmployeeId</span></td>
 											<td>
-												@Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId })
+												@{
+													if (item.EmployeeId == User.Identity.Name)
+													{
+														Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId });
+													}
+													else{ Html.TextArea("Delete");}
+												 }
 											</td>
 										</tr>
 										seatNumber++;
@@ -49,7 +56,7 @@
 										<tr>
 											<td>@seatNumber</td>
 											<td>Available</td>
-											<td>@Html.ActionLink("Reserve", "Reserve", "Home") </td>
+											<td>@Html.ActionLink("Reserve", "Reserve", "Home", new { date = reserveDate.ToString("MM-dd-yy")}) </td>
 										</tr>
 										seatNumber++;
 

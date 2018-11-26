@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MCSeatScheduler.Controllers
 {
     [Authorize]
+	[Route("[controller]")]
 	public class HomeController : Controller
 	{
 		private readonly OpenSeatsController _apiController;
@@ -24,22 +25,28 @@ namespace MCSeatScheduler.Controllers
         
         public IActionResult Index()
 		{
-			//if (User.Identity.IsAuthenticated)
-			//{
-			//	await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-			//}
 			//Page where they pick a date n stuff
 			return View();
 		}
 
-		public ActionResult Reserve(DateTime date)
+		[HttpGet("Reserve/{date}")]
+		public async Task<IActionResult> Reserve([FromRoute]DateTime date)
 		{
-			return View("Reserve");
+			string eid = HttpContext.User.Identity.Name;
 
+			if (string.IsNullOrEmpty(eid)){
+				return RedirectToAction("Index", "Login");
+			}
+			return await ReserveNew(date, eid);
 		}
 
+		[Route("ReserveNow")]
 		public async Task<IActionResult> ReserveNew(DateTime date, string eid)
-		{			 
+		{		
+			//Cant reserve in the past	 
+			if (date.Date < DateTime.Now.Date){
+				return BadRequest("Cant reserve a date in the past");
+			}
 			//make sure seats still available
 			var open = _apiController.GetOpenSeats(date.Date) as OkObjectResult;
 
@@ -56,10 +63,7 @@ namespace MCSeatScheduler.Controllers
 				}
 				else{
 					 await _apiController.ReserveSeat(date, eid);
-					 return RedirectToAction("OpenSeats", "Home", new
-					 {
-						 date = date.ToString()
-					 });
+					 return RedirectToAction("ViewOpenSeats", "Home", new {date = date.ToString("MM-dd-yy")});
 				}
 			}
 			else{
@@ -68,25 +72,19 @@ namespace MCSeatScheduler.Controllers
 
 		}
 
+		[HttpGet("Delete")]
 		public async Task<IActionResult> Delete(DateTime date, string eid)
-		{
-			
+		{			
 			//var dt = DateTime.Parse(date);
 			var ret = await _apiController.DeleteOpenSeats(date.Date, eid);
 			return RedirectToAction("OpenSeats", "Home", new
 			{
 				date = date.ToString()
 			});
-
-			//if (ret == null)
-			//{
-			//	return View();
-			//}
-			//return View(ret.Value);
 		}
-	
 
-		public IActionResult OpenSeats(DateTime date)
+		[HttpGet("{date}")]
+		public IActionResult ViewOpenSeats([FromRoute] DateTime date)
 		{
 			//Set the date here for the other views
 			TempData["SelectedDate"] = date;
@@ -98,23 +96,13 @@ namespace MCSeatScheduler.Controllers
 		    {
 				return View();
 			}
-			return View(ret.Value);
+			return View("OpenSeats", ret.Value);
 		}
-
-		// POST: Home
+	
 		[HttpPost]
-		public IActionResult Create(IFormCollection collection)
+		public IActionResult OpenSeats(DateTime date)
 		{
-			try
-			{
-				var date = collection["txtDate"];
-				return RedirectToAction("OpenSeats", new { date = date.ToString()
-				});
-			}
-			catch
-			{
-				return View();
-			}
+			return RedirectToAction("ViewOpenSeats", "Home", new {date = date.ToString("MM-dd-yy")});
 		}
 	}
 }
