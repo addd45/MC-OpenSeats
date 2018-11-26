@@ -14,61 +14,77 @@
 	<title>@ViewBag.Title</title>
 </head>
 <body>
+    @{DateTime.TryParse(ViewContext.RouteData.Values["date"].ToString(), out DateTime reserveDate); }
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-				<div class="card card-signin my-5">
-					<div class="card-body">
-						<h3 class="card-title text-center">Clearing Seat Scheduler</h3>
-						<br />
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">Seat Number</th>
-									<th scope="col">Employee ID</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <br />
+                <div class="label-info">
+                    <h4 class="info">You are viewing seats for <br /> @reserveDate.ToLongDateString() </h4>
+                </div>
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Clearing Seat Scheduler</h3>
+                        <br />
 
-							<tbody>
-								@{int openSeats = MAX_SEATS - Model.Count();
-									int seatNumber = 1;
-									DateTime reserveDate = Model.FirstOrDefault().Date;
-									foreach (var item in Model)
-									{
-										<tr>
-											<td>@seatNumber</td>
-											<td><span>@item.EmployeeId</span></td>
-											<td>
-												@{
-													if (item.EmployeeId == User.Identity.Name)
-													{
-														Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId });
-													}
-													else{ Html.TextArea("Delete");}
-												 }
-											</td>
-										</tr>
-										seatNumber++;
-									}
-									for (int i = 0; i < openSeats; i++)
-									{
-										<tr>
-											<td>@seatNumber</td>
-											<td>Available</td>
-											<td>@Html.ActionLink("Reserve", "Reserve", "Home", new { date = reserveDate.ToString("MM-dd-yy")}) </td>
-										</tr>
-										seatNumber++;
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Seat Number</th>
+                                    <th scope="col">Employee ID</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
 
-									}
-								}
-							</tbody>
-						</table>
+                            <tbody>
+                                @{int openSeats = MAX_SEATS - Model.Count();
+                                    int seatNumber = 1;
+                                    foreach (var item in Model)
+                                    {
+
+                                        <tr>
+
+                                            <td>@seatNumber</td>
+
+                                            <td><span>@item.EmployeeId</span></td>
+
+                                            <td>
+                                                @{
+                                                    if (item.EmployeeId == User.Identity.Name)
+                                                    {
+                                                        Html.ActionLink("Delete", "Delete", "Home", new { date = item.Date, eid = item.EmployeeId });
+                                                    }
+                                                    else { Html.TextArea("Delete"); }
+                                                }
+
+                                            </td>
+
+                                        </tr>
+                                        seatNumber++;
+                                    }
+                                    for (int i = 0; i < openSeats; i++)
+                                    {
+
+                                        <tr>
+
+                                            <td>@seatNumber</td>
+
+                                            <td>Available</td>
+
+                                            <td>@Html.ActionLink("Reserve", "Reserve", "Home", new { date = reserveDate.ToString("MM-dd-yy") }) </td>
+
+                                        </tr>
+                                        seatNumber++;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
 
 
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
 
