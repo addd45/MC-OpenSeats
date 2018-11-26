@@ -35,42 +35,57 @@ namespace MCSeatScheduler.Controllers
 				var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 				var principal = new ClaimsPrincipal(identity);
 				await HttpContext.SignInAsync(principal, properties);
-				
+
 				return RedirectToAction("Index", "Home");
 			}
 			catch (Exception)
 			{
 				return BadRequest();
 			}
+
+
+		}
+
+		[HttpPost]
+		[Route("logout")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Logout()
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			}
+
+			return RedirectToAction("Index", "Home");
 		}
 
 		//[HttpPost]
-  //      public async Task<IActionResult> LoginEID()
-  //      {
-  //          try
-  //          {
-  //              var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+		//      public async Task<IActionResult> LoginEID()
+		//      {
+		//          try
+		//          {
+		//              var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
 
-  //              identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "Test"));
-  //              identity.AddClaim(new Claim(ClaimTypes.Name, "test2"));
-  //              identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+		//              identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "Test"));
+		//              identity.AddClaim(new Claim(ClaimTypes.Name, "test2"));
+		//              identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
 
-  //              ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-  //              var authProp = new AuthenticationProperties
-  //              {
-  //                  AllowRefresh = true,
-  //                  ExpiresUtc = DateTimeOffset.Now.AddDays(7),
-  //                  IsPersistent = true
-  //              };
-  //              await HttpContext.SignInAsync(principal, authProp);
+		//              ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+		//              var authProp = new AuthenticationProperties
+		//              {
+		//                  AllowRefresh = true,
+		//                  ExpiresUtc = DateTimeOffset.Now.AddDays(7),
+		//                  IsPersistent = true
+		//              };
+		//              await HttpContext.SignInAsync(principal, authProp);
 
-  //              return RedirectToAction("Index", "Home");
-  //          }
-  //          catch (Exception)
-  //          {
-  //              return BadRequest();
-  //          }
-  //      }
+		//              return RedirectToAction("Index", "Home");
+		//          }
+		//          catch (Exception)
+		//          {
+		//              return BadRequest();
+		//          }
+		//      }
 
-    }
+	}
 }
